@@ -1,8 +1,7 @@
 package com.example.manifestacoes_ouvidoria.app.controllers;
 
 import com.example.manifestacoes_ouvidoria.app.DTOs.ManifestacaoDTO;
-import com.example.manifestacoes_ouvidoria.app.entities.Manifestacao;
-import com.example.manifestacoes_ouvidoria.app.interfaces.ManifestacaoContratoService;
+import com.example.manifestacoes_ouvidoria.app.interfaces.services.ManifestacaoContratoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,9 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -40,6 +36,15 @@ public class ManifestacaoController {
             return ResponseEntity.ok(service.getManifestacaoById(id));
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno do servidor: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/orgao/{sigla}")
+    public ResponseEntity<List<ManifestacaoDTO>> getManifestacoesByOrgao(@PathVariable String sigla) {
+        try {
+            return ResponseEntity.ok(service.getManifestacoesByOrgao(sigla));
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno no servidor: %s".formatted(e.getMessage()));
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.manifestacoes_ouvidoria.app.DTOs;
 
-import com.example.manifestacoes_ouvidoria.app.enums.StatusSituacaoManifestacao;
+import com.example.manifestacoes_ouvidoria.app.entities.Orgao;
+import com.example.manifestacoes_ouvidoria.app.enums.StatusSituacao;
 import com.example.manifestacoes_ouvidoria.app.enums.StatusTipoManifestacao;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
@@ -14,11 +15,11 @@ public record ManifestacaoDTO(
         @Nullable
                 Long id,
         @NotNull
-                StatusTipoManifestacao tipoManifestacao,
+                String statusTipoManifestacao,
         @NotBlank(message = "O assunto é obrigatório")
         @Size(max = 100)
                 String assunto,
-        @NotBlank(message = "A descrição é obrigatório")
+        @NotBlank(message = "A descrição é obrigatória")
         @Size(max = 1000)
                 String descricao,
         @Nullable
@@ -30,5 +31,7 @@ public record ManifestacaoDTO(
         @PastOrPresent
                 LocalDateTime dataAtualizacaoRegistro,
         @NotNull
-                StatusSituacaoManifestacao situacaoManifestacao
+                String statusSituacaoManifestacao,
+        @Nullable
+                String orgao
 ) {}

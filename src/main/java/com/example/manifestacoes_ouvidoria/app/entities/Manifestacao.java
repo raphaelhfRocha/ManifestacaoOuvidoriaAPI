@@ -1,9 +1,12 @@
 package com.example.manifestacoes_ouvidoria.app.entities;
 
-import com.example.manifestacoes_ouvidoria.app.enums.StatusSituacaoManifestacao;
+import com.example.manifestacoes_ouvidoria.app.enums.StatusSituacao;
 import com.example.manifestacoes_ouvidoria.app.enums.StatusTipoManifestacao;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
@@ -23,25 +26,34 @@ public class Manifestacao {
     private LocalDateTime dataRegistro;
     private LocalDateTime dataAtualizacaoRegistro;
     @Enumerated(EnumType.STRING)
-    private StatusSituacaoManifestacao situacaoManifestacao;
+    private StatusSituacao situacaoManifestacao;
+    @NotNull
+    @ManyToOne
+    private Orgao orgao;
+    @ManyToOne
+    @JoinColumn(name = "manifestacao_id")
+    private Movimentacao movimentacao;
 
-    public Manifestacao(){}
+    public Manifestacao() {}
 
     public Manifestacao(Long id,
                         StatusTipoManifestacao tipoManifestacao,
                         String assunto,
                         String descricao,
                         @Nullable String nomeManifestante,
-                        LocalDateTime dataRegistro,
                         LocalDateTime dataAtualizacaoRegistro,
-                        StatusSituacaoManifestacao situacaoManifestacao) {
+                        StatusSituacao situacaoManifestacao,
+                        Orgao orgao,
+                        Movimentacao movimentacao) {
+        this.id = id;
         this.tipoManifestacao = tipoManifestacao;
         this.assunto = assunto;
         this.descricao = descricao;
         this.nomeManifestante = nomeManifestante;
-        this.dataRegistro = dataRegistro;
         this.dataAtualizacaoRegistro = dataAtualizacaoRegistro;
         this.situacaoManifestacao = situacaoManifestacao;
+        this.orgao = orgao;
+        this.movimentacao = movimentacao;
     }
 
     public Manifestacao(StatusTipoManifestacao tipoManifestacao,
@@ -50,7 +62,9 @@ public class Manifestacao {
                         @Nullable String nomeManifestante,
                         LocalDateTime dataRegistro,
                         LocalDateTime dataAtualizacaoRegistro,
-                        StatusSituacaoManifestacao situacaoManifestacao) {
+                        StatusSituacao situacaoManifestacao,
+                        Orgao orgao,
+                        Movimentacao movimentacao) {
         this.tipoManifestacao = tipoManifestacao;
         this.assunto = assunto;
         this.descricao = descricao;
@@ -58,7 +72,10 @@ public class Manifestacao {
         this.dataRegistro = dataRegistro;
         this.dataAtualizacaoRegistro = dataAtualizacaoRegistro;
         this.situacaoManifestacao = situacaoManifestacao;
+        this.orgao = orgao;
+        this.movimentacao = movimentacao;
     }
+
 
 
     public Long getId() {
@@ -118,11 +135,27 @@ public class Manifestacao {
         this.dataAtualizacaoRegistro = dataAtualizacaoRegistro;
     }
 
-    public StatusSituacaoManifestacao getSituacaoManifestacao() {
+    public StatusSituacao getSituacaoManifestacao() {
         return situacaoManifestacao;
     }
 
-    public void setSituacaoManifestacao(StatusSituacaoManifestacao situacaoManifestacao) {
+    public void setSituacaoManifestacao(StatusSituacao situacaoManifestacao) {
         this.situacaoManifestacao = situacaoManifestacao;
+    }
+
+    public Orgao getOrgao() {
+        return orgao;
+    }
+
+    public void setOrgao(Orgao orgao) {
+        this.orgao = orgao;
+    }
+
+    public Movimentacao getMovimentacao() {
+        return movimentacao;
+    }
+
+    public void setMovimentacao(Movimentacao movimentacao) {
+        this.movimentacao = movimentacao;
     }
 }
