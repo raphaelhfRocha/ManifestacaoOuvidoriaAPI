@@ -4,7 +4,6 @@ import com.example.manifestacoes_ouvidoria.app.enums.StatusSituacao;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "movimentacao")
@@ -15,25 +14,23 @@ public class Movimentacao {
     private LocalDateTime dataHora;
     private String descricao;
     private StatusSituacao statusSituacaoResultante;
-    private Long idManifestacao;
-    @OneToMany(mappedBy = "movimentacao", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Manifestacao> manifestacoes;
+    @ManyToOne
+    @JoinColumn(name = "manifestacao_id")
+    private Manifestacao manifestacao;
 
     public Movimentacao() {}
 
-    public Movimentacao(Long id, LocalDateTime dataHora, String descricao, StatusSituacao statusSituacaoResultante, Long idManifestacao) {
+    public Movimentacao(Long id, LocalDateTime dataHora, String descricao, StatusSituacao statusSituacaoResultante) {
         this.id = id;
         this.dataHora = dataHora;
         this.descricao = descricao;
         this.statusSituacaoResultante = statusSituacaoResultante;
-        this.idManifestacao = idManifestacao;
     }
 
-    public Movimentacao(LocalDateTime dataHora, String descricao, StatusSituacao statusSituacaoResultante, Long idManifestacao) {
+    public Movimentacao(LocalDateTime dataHora, String descricao, StatusSituacao statusSituacaoResultante) {
         this.dataHora = dataHora;
         this.descricao = descricao;
         this.statusSituacaoResultante = statusSituacaoResultante;
-        this.idManifestacao = idManifestacao;
     }
 
     public Long getId() {
@@ -68,19 +65,11 @@ public class Movimentacao {
         this.statusSituacaoResultante = statusSituacaoResultante;
     }
 
-    public List<Manifestacao> getManifestacoes() {
-        return manifestacoes;
+    public Manifestacao getManifestacao() {
+        return manifestacao;
     }
 
-    public void setManifestacoes(List<Manifestacao> manifestacoes) {
-        this.manifestacoes = manifestacoes;
-    }
-
-    public Long getIdManifestacao() {
-        return idManifestacao;
-    }
-
-    public void setIdManifestacao(Long idManifestacao) {
-        this.idManifestacao = idManifestacao;
+    public void setManifestacao(Manifestacao manifestacao) {
+        this.manifestacao = manifestacao;
     }
 }

@@ -7,7 +7,7 @@ public class StatusSituacaoEnumMap {
         String response = "";
         switch (status) {
             case stsNone:
-                response = null;
+                response = "";
                 break;
             case stsAberta:
                 response = "Aberta";
@@ -25,6 +25,9 @@ public class StatusSituacaoEnumMap {
     public static StatusSituacao toEnum(String status) {
         StatusSituacao statusEnumResponse = StatusSituacao.stsNone;
         switch (status) {
+            case "":
+                statusEnumResponse = StatusSituacao.stsNone;
+                break;
             case "Ativo":
                 statusEnumResponse = StatusSituacao.stsAberta;
                 break;

@@ -1,8 +1,5 @@
 package com.example.manifestacoes_ouvidoria.app.DTOs;
 
-import com.example.manifestacoes_ouvidoria.app.entities.Orgao;
-import com.example.manifestacoes_ouvidoria.app.enums.StatusSituacao;
-import com.example.manifestacoes_ouvidoria.app.enums.StatusTipoManifestacao;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,6 +7,7 @@ import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record ManifestacaoDTO(
         @Nullable
@@ -30,8 +28,10 @@ public record ManifestacaoDTO(
         @Nullable
         @PastOrPresent
                 LocalDateTime dataAtualizacaoRegistro,
-        @NotNull
+        @Nullable
                 String statusSituacaoManifestacao,
         @Nullable
-                String orgao
+                String orgao,
+        @Nullable
+                List<MovimentacaoDTO> movimentacoesDTO
 ) {}

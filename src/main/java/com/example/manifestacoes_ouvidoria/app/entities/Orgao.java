@@ -3,6 +3,7 @@ package com.example.manifestacoes_ouvidoria.app.entities;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,8 +16,8 @@ public class Orgao {
     @Column(columnDefinition = "CHAR(5)")
     private String sigla;
     @Nullable
-    @OneToMany
-    private List<Manifestacao> manifestacoes;
+    @OneToMany(mappedBy = "orgao")
+    private List<Manifestacao> manifestacoes = new ArrayList<>();
 
     public Orgao() {}
 

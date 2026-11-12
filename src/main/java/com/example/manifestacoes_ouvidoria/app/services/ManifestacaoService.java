@@ -66,12 +66,13 @@ public class ManifestacaoService implements ManifestacaoContratoService {
         MovimentacaoDTO movimentacaoDTO = new MovimentacaoDTO(
                 null,
                 manifestacaoRegistrada.getDataRegistro(),
-                generateDescription(null, manifestacaoRegistrada.getSituacaoManifestacao()),
+                generateDescription(StatusSituacao.stsNone, manifestacaoRegistrada.getSituacaoManifestacao()),
                 manifestacaoRegistrada.getSituacaoManifestacao(),
                 manifestacaoRegistrada.getId()
         );
         movimentacaoRepository.registrarMovimentacao(movimentacaoMapper.
                 toEntity(movimentacaoDTO));
+
         return mapper.toDTO(manifestacaoRegistrada);
     }
 
@@ -88,12 +89,13 @@ public class ManifestacaoService implements ManifestacaoContratoService {
         var movimentacaoAlterar = new MovimentacaoDTO(
                 null,
                 manifestacaoAtualizada.getDataAtualizacaoRegistro(),
-                generateDescription(manifestacaoFound.getSituacaoManifestacao(),
-                        manifestacaoAtualizada.getSituacaoManifestacao()),
+                generateDescription(manifestacaoFound.getSituacaoManifestacao(), manifestacaoAtualizada.getSituacaoManifestacao()),
                 manifestacaoAtualizada.getSituacaoManifestacao(),
                 manifestacaoAtualizada.getId()
         );
-        movimentacaoRepository.atualizarMovimentacao(movimentacaoMapper.toEntity(movimentacaoAlterar));
+        var movimentacaoRegistrada = movimentacaoRepository.registrarMovimentacao(movimentacaoMapper.toEntity(movimentacaoAlterar));
+        manifestacaoAtualizada.getMovimentacoes().add(movimentacaoRegistrada);
+
         return mapper.toDTO(manifestacaoAtualizada);
     }
 
@@ -105,7 +107,7 @@ public class ManifestacaoService implements ManifestacaoContratoService {
 
     private String generateDescription(StatusSituacao statusSituacaoBefore, StatusSituacao statusSituacaoAfter) {
         String descricao = "";
-        if (statusSituacaoBefore == null &&
+        if (statusSituacaoBefore == StatusSituacao.stsNone &&
                 statusSituacaoAfter == StatusSituacao.stsAberta) {
             descricao = "Situação: aberta";
         }

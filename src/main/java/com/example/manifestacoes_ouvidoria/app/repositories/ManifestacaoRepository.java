@@ -29,7 +29,7 @@ public class ManifestacaoRepository implements ManifestacaoContratoRepository {
 
     public List<Manifestacao> getManifestacoesByOrgao(Orgao orgao) {
         return context.findManifestacoesByOrgao(orgao).orElseThrow(() ->
-                new RuntimeException("Manifestação não encontrada: %s".formatted(orgao)));
+                new RuntimeException("Manifestação não encontrada: " + orgao));
     }
 
     @Override

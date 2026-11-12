@@ -14,11 +14,6 @@ public class MovimentacaoRepository implements MovimentacaoContratoRepository {
     }
 
     @Override
-    public Movimentacao getMovimentacaoByManifestacaoId(Long id) {
-        return context.findByIdManifestacao(id).orElseThrow(() -> new RuntimeException("Movimentação não encontrada: " + id));
-    }
-
-    @Override
     public Movimentacao registrarMovimentacao(Movimentacao movimentacao) {
         return context.save(movimentacao);
     }

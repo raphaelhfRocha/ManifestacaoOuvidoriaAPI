@@ -4,15 +4,13 @@ import com.example.manifestacoes_ouvidoria.app.enums.StatusSituacao;
 import com.example.manifestacoes_ouvidoria.app.enums.StatusTipoManifestacao;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Entity
-@Table(name = "manifestacoes")
+@Table(name = "manifestacao")
 public class Manifestacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,13 +25,12 @@ public class Manifestacao {
     private LocalDateTime dataAtualizacaoRegistro;
     @Enumerated(EnumType.STRING)
     private StatusSituacao situacaoManifestacao;
-    @NotNull
+    @Nullable
     @ManyToOne
     private Orgao orgao;
-    @ManyToOne
-    @JoinColumn(name = "manifestacao_id")
-    private Movimentacao movimentacao;
-
+    @Nullable
+    @OneToMany(mappedBy = "manifestacao", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Movimentacao> movimentacoes;
     public Manifestacao() {}
 
     public Manifestacao(Long id,
@@ -43,8 +40,7 @@ public class Manifestacao {
                         @Nullable String nomeManifestante,
                         LocalDateTime dataAtualizacaoRegistro,
                         StatusSituacao situacaoManifestacao,
-                        Orgao orgao,
-                        Movimentacao movimentacao) {
+                        Orgao orgao) {
         this.id = id;
         this.tipoManifestacao = tipoManifestacao;
         this.assunto = assunto;
@@ -53,7 +49,6 @@ public class Manifestacao {
         this.dataAtualizacaoRegistro = dataAtualizacaoRegistro;
         this.situacaoManifestacao = situacaoManifestacao;
         this.orgao = orgao;
-        this.movimentacao = movimentacao;
     }
 
     public Manifestacao(StatusTipoManifestacao tipoManifestacao,
@@ -63,8 +58,7 @@ public class Manifestacao {
                         LocalDateTime dataRegistro,
                         LocalDateTime dataAtualizacaoRegistro,
                         StatusSituacao situacaoManifestacao,
-                        Orgao orgao,
-                        Movimentacao movimentacao) {
+                        Orgao orgao) {
         this.tipoManifestacao = tipoManifestacao;
         this.assunto = assunto;
         this.descricao = descricao;
@@ -73,7 +67,6 @@ public class Manifestacao {
         this.dataAtualizacaoRegistro = dataAtualizacaoRegistro;
         this.situacaoManifestacao = situacaoManifestacao;
         this.orgao = orgao;
-        this.movimentacao = movimentacao;
     }
 
 
@@ -143,19 +136,19 @@ public class Manifestacao {
         this.situacaoManifestacao = situacaoManifestacao;
     }
 
-    public Orgao getOrgao() {
+    public @Nullable Orgao getOrgao() {
         return orgao;
     }
 
-    public void setOrgao(Orgao orgao) {
+    public void setOrgao(@Nullable Orgao orgao) {
         this.orgao = orgao;
     }
 
-    public Movimentacao getMovimentacao() {
-        return movimentacao;
+    public @Nullable List<Movimentacao> getMovimentacoes() {
+        return movimentacoes;
     }
 
-    public void setMovimentacao(Movimentacao movimentacao) {
-        this.movimentacao = movimentacao;
+    public void setMovimentacoes(@Nullable List<Movimentacao> movimentacoes) {
+        this.movimentacoes = movimentacoes;
     }
 }

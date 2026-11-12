@@ -1,16 +1,25 @@
 package com.example.manifestacoes_ouvidoria.app.maps;
 
 import com.example.manifestacoes_ouvidoria.app.DTOs.ManifestacaoDTO;
+import com.example.manifestacoes_ouvidoria.app.DTOs.MovimentacaoDTO;
 import com.example.manifestacoes_ouvidoria.app.entities.Manifestacao;
+import com.example.manifestacoes_ouvidoria.app.entities.Movimentacao;
 import com.example.manifestacoes_ouvidoria.app.interfaces.Mapper;
 import com.example.manifestacoes_ouvidoria.app.maps.enums.StatusSituacaoEnumMap;
 import com.example.manifestacoes_ouvidoria.app.maps.enums.StatusTipoManifestacaoEnumMap;
 import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class ManifestacaoMapper implements Mapper<Manifestacao, ManifestacaoDTO> {
+
+    private final Mapper<Movimentacao, MovimentacaoDTO> movimentacaoMapper;
+
+    public ManifestacaoMapper(Mapper<Movimentacao, MovimentacaoDTO> movimentacaoMapper) {
+        this.movimentacaoMapper = movimentacaoMapper;
+    }
 
     public Manifestacao toEntity(ManifestacaoDTO manifestacaoDTO) {
         StatusTipoManifestacaoEnumMap statusTipoManifestacao = new StatusTipoManifestacaoEnumMap();
@@ -24,7 +33,6 @@ public class ManifestacaoMapper implements Mapper<Manifestacao, ManifestacaoDTO>
                 manifestacaoDTO.nomeManifestante(),
                 LocalDateTime.now(),
                 statusSituacao.toEnum(manifestacaoDTO.statusSituacaoManifestacao()),
-                null,
                 null
         );
     }
@@ -42,7 +50,8 @@ public class ManifestacaoMapper implements Mapper<Manifestacao, ManifestacaoDTO>
                 manifestacao.getDataRegistro(),
                 manifestacao.getDataAtualizacaoRegistro(),
                 statusSituacao.toString(manifestacao.getSituacaoManifestacao()),
-                manifestacao.getOrgao().getSigla()
+                manifestacao.getOrgao().getSigla(),
+                movimentacaoMapper.toDTOList(Objects.requireNonNullElse(manifestacao.getMovimentacoes(), null))
         );
     }
 

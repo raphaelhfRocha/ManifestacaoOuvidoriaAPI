@@ -23,12 +23,12 @@ public class OrgaoRepository implements OrgaoContratoRepository {
     @Override
     public Orgao getOrgaoById(Long id) {
         return context.findById(id).orElseThrow(() ->
-                new RuntimeException("Órgão não encontrado"));
+                new RuntimeException("Órgão não encontrado: " + id));
     }
 
     public Orgao getOrgaoBySigla(String sigla) {
         return context.findOrgaoBySigla(sigla).orElseThrow(() ->
-                new RuntimeException("Órgão não encontrado"));
+                new RuntimeException("Órgão não encontrado: %s".formatted(sigla)));
     }
 
     @Override
