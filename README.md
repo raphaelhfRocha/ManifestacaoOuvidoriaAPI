@@ -335,17 +335,3 @@ ManifestacaoOuvidoriaAPI/
 │       └── java/.../AppApplicationTests     # Testes
 └── .mvn/                                    # Maven Wrapper
 ```
-
----
-
-## 🔮 Roadmap
-
-- [ ] Implementar tratamento global de exceções (`ExceptionsGlobal`)
-- [ ] Adicionar autenticação e autorização (Spring Security)
-- [ ] Migrar banco de dados para PostgreSQL/MySQL em produção
-- [ ] Implementar paginação e filtros avançados nas listagens
-- [ ] Adicionar validações de transição de status (impedir fluxo inválido)
-- [ ] Criar testes unitários e de integração
-- [ ] Implementar endpoint de movimentações independente
-- [ ] Adicionar logs estruturados
-- [ ] Containerização com Docker
